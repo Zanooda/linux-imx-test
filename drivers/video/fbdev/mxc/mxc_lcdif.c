@@ -1,4 +1,3 @@
-/* Copyright 2020 NXP */
 /*
  * Copyright (C) 2011-2015 Freescale Semiconductor, Inc. All Rights Reserved.
  */
@@ -49,6 +48,13 @@ static struct fb_videomode lcdif_modedb[] = {
 	FB_SYNC_CLK_LAT_FALL,
 	FB_VMODE_NONINTERLACED,
 	0,},
+	{
+	/* 480x480 @ 60 Hz , pixel clk @ 25MHz */
+	"AUO", 60, 480, 480, 65037, 40, 60, 10, 10, 20, 10,
+	FB_SYNC_CLK_LAT_FALL,
+	FB_VMODE_NONINTERLACED,
+	1,},
+
 };
 static int lcdif_modedb_sz = ARRAY_SIZE(lcdif_modedb);
 
