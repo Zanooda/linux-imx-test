@@ -42,6 +42,7 @@
 #include <linux/poll.h>
 #include <linux/printk.h>
 #include <linux/version.h>
+#include <linux/gpio/consumer.h>
 
 #define MAX_BUFFER_SIZE	512
 
@@ -495,18 +496,17 @@ static int pn54x_get_pdata(struct device *dev,
 	/* read the dev tree data */
 
 	/* ven pin - enable's power to the chip - REQUIRED */
-	val = of_get_named_gpio_flags(node, "enable-gpios", 0, &flags);
+	val = of_get_named_gpio(node, "enable-gpios", 0);
 	if (val >= 0) {
 		pdata->ven_gpio = val;
-		pdata->ven_active_low = (flags & OF_GPIO_ACTIVE_LOW) != 0;
-	}
-	else {
+		pdata->ven_active_low = of_property_read_bool(node, "enable-gpios-active-low");
+	} else {
 		dev_err(dev, "VEN GPIO error getting from OF node\n");
 		return val;
 	}
 
 	/* firm pin - controls firmware download - OPTIONAL */
-	val = of_get_named_gpio_flags(node, "firmware-gpios", 0, &flags);
+	val = of_get_named_gpio(node, "firmware-gpios", 0);
 	if (val >= 0) {
 		pdata->firm_gpio = val;
 	}
@@ -516,7 +516,7 @@ static int pn54x_get_pdata(struct device *dev,
 	}
 
 	/* irq pin - data available irq - REQUIRED */
-	val = of_get_named_gpio_flags(node, "interrupt-gpios", 0, &flags);
+	val = of_get_named_gpio(node, "interrupt-gpios", 0);
 	if (val >= 0) {
 		pdata->irq_gpio = val;
 		if (of_property_read_bool(node, "wakeup-source")) {
@@ -529,7 +529,7 @@ static int pn54x_get_pdata(struct device *dev,
 	}
 
 	/* clkreq pin - controls the clock to the PN547 - OPTIONAL */
-	val = of_get_named_gpio_flags(node, "nxp,pn54x-clkreq", 0, &flags);
+	val = of_get_named_gpio(node, "nxp,pn54x-clkreq", 0);
 	if (val >= 0) {
 		pdata->clkreq_gpio = val;
 	}
