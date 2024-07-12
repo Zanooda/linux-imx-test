@@ -297,8 +297,7 @@ int sdma_is_event_enabled(struct sdma_channel *sdmac, unsigned int event);
  *
  * Return: 0 on success, nonzero on error
  */
-int sdma_load_script(struct sdma_engine *sdma, void *buf, int size,
-		u32 address);
+int sdma_load_script(struct sdma_engine *sdma);
 
 /**
  * sdma_load_partial_context() - writes a subset of a channel's context
