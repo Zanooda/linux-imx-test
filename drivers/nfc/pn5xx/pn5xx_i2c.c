@@ -47,9 +47,9 @@
 
 #define MAX_BUFFER_SIZE	512
 
-#define MODE_OFF    0
-#define MODE_RUN    1
-#define MODE_FW     2
+#define MODE_OFF	0
+#define MODE_RUN	1
+#define MODE_FW	 2
 
 /* Only pn548, pn547 and pn544 are supported */
 #define DEVICE_NAME "pn5xx_i2c"
@@ -821,40 +821,44 @@ static void pn54x_remove(struct i2c_client *client)
 
 
 #ifdef CONFIG_PM_SLEEP
+#include <linux/pinctrl/consumer.h>
+
 static int pn54x_suspend(struct device *dev)
 {
 	struct pn54x_dev *pn54x_dev = dev_get_drvdata(dev);
-	if (device_may_wakeup(dev)) {
-		if (pn54x_dev->wakeup_enabled) {
-			enable_irq_wake(pn54x_dev->client->irq);
-		}
+	int ret = 0;
+
+	if (device_may_wakeup(dev) && pn54x_dev->wakeup_enabled) {
+		enable_irq_wake(pn54x_dev->client->irq);
 	}
-    
+	
 	#ifdef CONFIG_PINCTRL
-	if (!IS_ERR_OR_NULL(dev->pins->sleep_state)) {
-		return pinctrl_select_state(dev->pins->p, dev->pins->sleep_state);
+	ret = pinctrl_pm_select_sleep_state(dev);
+	if (ret < 0) {
+		dev_err(dev, "Failed to select sleep pinstate: %d\n", ret);
 	}
 	#endif
-    
-	return 0;
+	
+	return ret;
 }
 
 static int pn54x_resume(struct device *dev)
 {
 	struct pn54x_dev *pn54x_dev = dev_get_drvdata(dev);
-    
+	int ret = 0;
+	
 	#ifdef CONFIG_PINCTRL
-	if (!IS_ERR_OR_NULL(dev->pins->default_state)) {
-		pinctrl_select_state(dev->pins->p, dev->pins->default_state);
+	ret = pinctrl_pm_select_default_state(dev);
+	if (ret < 0) {
+		dev_err(dev, "Failed to select default pinstate: %d\n", ret);
 	}
 	#endif
-    
-	if (device_may_wakeup(dev)) {
-		if (pn54x_dev->wakeup_enabled) {
-			disable_irq_wake(pn54x_dev->client->irq);
-		}
+	
+	if (device_may_wakeup(dev) && pn54x_dev->wakeup_enabled) {
+		disable_irq_wake(pn54x_dev->client->irq);
 	}
-	return 0;
+
+	return ret;
 }
 #endif
 
@@ -890,7 +894,7 @@ static struct i2c_driver pn54x_driver = {
 		.owner	= THIS_MODULE,
 		.name	= "pn544",
 		.of_match_table = pn54x_dt_match,
-		.pm     = &pn54x_pm_ops,
+		.pm	 = &pn54x_pm_ops,
 	},
 };
 
