@@ -38,6 +38,7 @@
 
 #include <asm/irq.h>
 #include <linux/dma/imx-dma.h>
+#include <linux/platform_data/dma-imx-sdma.h>
 #include <linux/regmap.h>
 #include <linux/mfd/syscon.h>
 #include <linux/mfd/syscon/imx6q-iomuxc-gpr.h>
@@ -187,6 +188,7 @@
 				 BIT(DMA_MEM_TO_DEV) | \
 				 BIT(DMA_DEV_TO_DEV))
 
+<<<<<<< HEAD
 #define SDMA_WATERMARK_LEVEL_N_FIFOS	GENMASK(15, 12)
 #define SDMA_WATERMARK_LEVEL_OFF_FIFOS  GENMASK(19, 16)
 #define SDMA_WATERMARK_LEVEL_WORDS_PER_FIFO   GENMASK(31, 28)
@@ -257,6 +259,8 @@ struct sdma_script_start_addrs {
 	/* End of v4 array */
 };
 
+=======
+>>>>>>> parent of 8d11cfb0c375 (dmaengine: imx-sdma: Remove platform data header)
 /*
  * Mode/Count of data node descriptors - IPCv2
  */
