@@ -21,6 +21,27 @@ config MXC_TZIC
 config MXC_AVIC
 	bool
 
+config HAVE_EPIT
+	bool
+
+config MXC_USE_EPIT
+	bool "Use EPIT instead of GPT"
+	depends on HAVE_EPIT
+	help
+	  Use EPIT as the system timer on systems that have it. Normally you
+	  don't have a reason to do so as the EPIT has the same features and
+	  uses the same clocks as the GPT. Anyway, on some systems the GPT
+	  may be in use for other purposes.
+
+config MXC_EPIT_API
+	bool "Allow EPIT1/EPIT2 to be used in kernel modules"
+	depends on !MXC_USE_EPIT
+	help
+		Exposes an API for EPIT1/EPIT2.
+
+config HAVE_IMX_RNG
+       bool
+
 config HAVE_IMX_ANATOP
 	bool
 
@@ -68,6 +89,7 @@ config SOC_IMX31
 
 config SOC_IMX35
 	bool "i.MX35 support"
+	select HAVE_EPIT
 	select MXC_AVIC
 	select PINCTRL_IMX35
 	help
