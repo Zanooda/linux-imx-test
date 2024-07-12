@@ -43,6 +43,7 @@
 #include <linux/printk.h>
 #include <linux/version.h>
 #include <linux/gpio/consumer.h>
+#include <linux/pinctrl/consumer.h>
 
 #define MAX_BUFFER_SIZE	512
 
@@ -483,7 +484,6 @@ static int pn54x_get_pdata(struct device *dev,
 							struct pn544_i2c_platform_data *pdata)
 {
 	struct device_node *node;
-	u32 flags;
 	int val;
 
 	/* make sure there is actually a device tree node */
@@ -829,14 +829,26 @@ static int pn54x_suspend(struct device *dev)
 			enable_irq_wake(pn54x_dev->client->irq);
 		}
 	}
-	pinctrl_pm_select_sleep_state(dev);
+    
+	#ifdef CONFIG_PINCTRL
+	if (!IS_ERR_OR_NULL(dev->pins->sleep_state)) {
+		return pinctrl_select_state(dev->pins->p, dev->pins->sleep_state);
+	}
+	#endif
+    
 	return 0;
 }
 
 static int pn54x_resume(struct device *dev)
 {
 	struct pn54x_dev *pn54x_dev = dev_get_drvdata(dev);
-	pinctrl_pm_select_default_state(dev);
+    
+	#ifdef CONFIG_PINCTRL
+	if (!IS_ERR_OR_NULL(dev->pins->default_state)) {
+		pinctrl_select_state(dev->pins->p, dev->pins->default_state);
+	}
+	#endif
+    
 	if (device_may_wakeup(dev)) {
 		if (pn54x_dev->wakeup_enabled) {
 			disable_irq_wake(pn54x_dev->client->irq);
