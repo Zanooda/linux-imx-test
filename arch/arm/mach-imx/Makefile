@@ -14,8 +14,8 @@ obj-$(CONFIG_SOC_IMX5) += cpu-imx5.o $(imx5-pm-y)
 obj-$(CONFIG_MXC_TZIC) += tzic.o
 obj-$(CONFIG_MXC_AVIC) += avic.o
 
-+obj-$(CONFIG_MXC_USE_EPIT) += epit.o
-+obj-$(CONFIG_MXC_EPIT_API) += epit_api.o
+obj-$(CONFIG_MXC_USE_EPIT) += epit.o
+obj-$(CONFIG_MXC_EPIT_API) += epit_api.o
 
 ifeq ($(CONFIG_CPU_IDLE),y)
 obj-$(CONFIG_SOC_IMX5) += cpuidle-imx5.o
