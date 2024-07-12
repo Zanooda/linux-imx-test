@@ -188,7 +188,6 @@
 				 BIT(DMA_MEM_TO_DEV) | \
 				 BIT(DMA_DEV_TO_DEV))
 
-<<<<<<< HEAD
 #define SDMA_WATERMARK_LEVEL_N_FIFOS	GENMASK(15, 12)
 #define SDMA_WATERMARK_LEVEL_OFF_FIFOS  GENMASK(19, 16)
 #define SDMA_WATERMARK_LEVEL_WORDS_PER_FIFO   GENMASK(31, 28)
@@ -198,69 +197,6 @@
 #define SDMA_DONE0_CONFIG_DONE_SEL	0x7
 #define SDMA_DONE0_CONFIG_DONE_DIS	0x6
 
-/**
- * struct sdma_script_start_addrs - SDMA script start pointers
- *
- * start addresses of the different functions in the physical
- * address space of the SDMA engine.
- */
-struct sdma_script_start_addrs {
-	s32 ap_2_ap_addr;
-	s32 ap_2_bp_addr;
-	s32 ap_2_ap_fixed_addr;
-	s32 bp_2_ap_addr;
-	s32 loopback_on_dsp_side_addr;
-	s32 mcu_interrupt_only_addr;
-	s32 firi_2_per_addr;
-	s32 firi_2_mcu_addr;
-	s32 per_2_firi_addr;
-	s32 mcu_2_firi_addr;
-	s32 uart_2_per_addr;
-	s32 uart_2_mcu_addr;
-	s32 per_2_app_addr;
-	s32 mcu_2_app_addr;
-	s32 per_2_per_addr;
-	s32 uartsh_2_per_addr;
-	s32 uartsh_2_mcu_addr;
-	s32 per_2_shp_addr;
-	s32 mcu_2_shp_addr;
-	s32 ata_2_mcu_addr;
-	s32 mcu_2_ata_addr;
-	s32 app_2_per_addr;
-	s32 app_2_mcu_addr;
-	s32 shp_2_per_addr;
-	s32 shp_2_mcu_addr;
-	s32 mshc_2_mcu_addr;
-	s32 mcu_2_mshc_addr;
-	s32 spdif_2_mcu_addr;
-	s32 mcu_2_spdif_addr;
-	s32 asrc_2_mcu_addr;
-	s32 ext_mem_2_ipu_addr;
-	s32 descrambler_addr;
-	s32 dptc_dvfs_addr;
-	s32 utra_addr;
-	s32 ram_code_start_addr;
-	/* End of v1 array */
-	s32 mcu_2_ssish_addr;
-	s32 ssish_2_mcu_addr;
-	s32 hdmi_dma_addr;
-	/* End of v2 array */
-	s32 zcanfd_2_mcu_addr;
-	s32 zqspi_2_mcu_addr;
-	s32 mcu_2_ecspi_addr;
-	s32 mcu_2_sai_addr;
-	s32 sai_2_mcu_addr;
-	s32 uart_2_mcu_rom_addr;
-	s32 uartsh_2_mcu_rom_addr;
-	s32 i2c_2_mcu_addr;
-	s32 mcu_2_i2c_addr;
-	/* End of v3 array */
-	s32 mcu_2_zqspi_addr;
-	/* End of v4 array */
-};
-
-=======
->>>>>>> parent of 8d11cfb0c375 (dmaengine: imx-sdma: Remove platform data header)
 /*
  * Mode/Count of data node descriptors - IPCv2
  */
